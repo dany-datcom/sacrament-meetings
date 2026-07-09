@@ -1,32 +1,27 @@
-import type { SacramentMeeting } from './types';
+// This file has been deprecated.
+// Use /types/meeting.ts and /app/api/meetings/* for meeting data handling.
+// All mock data has been moved to the API routes.
 
-const meetings: SacramentMeeting[] = [
-    {
-        id: 1,
-        date: '2026-05-03',
-        meetingType: 'regular',
-        presiding: 'Bishop Smith',
-        conducting: 'Brother Jones',
-        openingHymn: { number: 2, title: 'The Spirit of God' },
-        openingPrayer: 'Sister Williams',
-        wardBusiness: [{ description: 'Sustaining of new Primary president' }],
-        stakeBusiness: false,
-        sacramentHymn: { number: 169, title: "In Remembrance of Thy Suffering" },
-        speakers: [
-            { name: 'Sister Brown', topic: 'Faith in Jesus Christ', type: 'speaker' },
-            { name: 'Youth Choir', topic: '', type: 'musical-number' }
-        ],
-        closingHymn: { number: 31, title: 'O God, Our Help in Ages Past' },
-        closingPrayer: 'Brother Davis',
-        announcements: ['Ward temple night: May 10']
-    }
-];
+import type { Meeting } from '@/types/meeting';
 
-export function getMeetings(date?: string | null): SacramentMeeting[] {
-  if (date) return meetings.filter(m => m.date === date);
-  return meetings;
+/**
+ * @deprecated Use getMeetingsFromAPI() instead
+ * This function is kept for backwards compatibility only.
+ */
+export function getMeetings(date?: string | null): Meeting[] {
+  console.warn(
+    'getMeetings() is deprecated. Use the /api/meetings endpoint instead.'
+  );
+  return [];
 }
 
-export function getMeetingById(id: number): SacramentMeeting | null {
-  return meetings.find(m => m.id === id) ?? null;
+/**
+ * @deprecated Use getMeetingFromAPI() instead
+ * This function is kept for backwards compatibility only.
+ */
+export function getMeetingById(id: number): Meeting | null {
+  console.warn(
+    'getMeetingById() is deprecated. Use the /api/meetings/[id] endpoint instead.'
+  );
+  return null;
 }

@@ -4,7 +4,11 @@ import type { Meeting } from '@/types/meeting';
 
 async function getMeetings(): Promise<Meeting[]> {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+    const baseUrl = process.env.NEXT_PUBLIC_API_URL;
+    if (!baseUrl) {
+      throw new Error('NEXT_PUBLIC_API_URL environment variable is required');
+    }
+
     const res = await fetch(`${baseUrl}/api/meetings`, {
       next: { revalidate: 3600 }, // Revalidate every hour
     });
@@ -26,7 +30,7 @@ async function MeetingsList() {
   if (meetings.length === 0) {
     return (
       <div className="text-center py-12">
-        <p className="text-gray-600">No hay reuniones disponibles</p>
+        <p className="text-gray-600">No meetings available</p>
       </div>
     );
   }
@@ -45,14 +49,14 @@ export default function MeetingsPage() {
     <div className="space-y-8">
       <div>
         <h1 className="text-3xl font-bold text-gray-900 mb-2">
-          Reuniones Sacramentales
+          Sacrament Meetings
         </h1>
         <p className="text-gray-600">
-          Consulta la agenda completa de todas nuestras reuniones
+          View the complete agenda for all our meetings
         </p>
       </div>
 
-      <Suspense fallback={<div className="text-center py-12">Cargando...</div>}>
+      <Suspense fallback={<div className="text-center py-12">Loading...</div>}>
         <MeetingsList />
       </Suspense>
     </div>

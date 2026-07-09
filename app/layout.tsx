@@ -9,7 +9,7 @@ const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'Sacrament Meetings',
-  description: 'Agenda y detalles de las reuniones sacramentales',
+  description: 'Complete agenda and details for sacrament meetings',
   icons: {
     icon: '/favicon.ico',
   },
@@ -21,7 +21,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="es">
+    <html lang="en">
       <body className={inter.className}>
         <div className="flex flex-col min-h-screen">
           <Header />
