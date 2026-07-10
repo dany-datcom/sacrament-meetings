@@ -1,59 +1,55 @@
-import { notFound } from 'next/navigation';
 import MeetingDetail from '@/components/MeetingDetail';
-import type { Meeting } from '@/types/meeting';
+import { notFound } from 'next/navigation';
+import type { SacramentMeeting } from '@/lib/types';
 
-interface Props {
-  params: {
-    id: string;
-  };
-}
 
-async function getMeeting(id: string): Promise<Meeting | null> {
-  try {
-    const baseUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
-    const res = await fetch(`${baseUrl}/api/meetings/${id}`, {
-      next: { revalidate: 3600 }, // Revalidate every hour
-    });
+async function getMeeting(
+  id: string
+): Promise<SacramentMeeting | null> {
 
-    if (!res.ok) {
-      if (res.status === 404) {
-        return null;
-      }
-      throw new Error(`API error: ${res.status}`);
+  const response = await fetch(
+    `http://localhost:3000/api/meetings/${id}`,
+    {
+      cache: 'no-store',
     }
+  );
 
-    return res.json();
-  } catch (error) {
-    console.error('Error fetching meeting:', error);
-    throw error;
-  }
-}
 
-export async function generateMetadata({ params }: Props) {
-  const meeting = await getMeeting(params.id);
-
-  if (!meeting) {
-    return {
-      title: 'Reunión no encontrada',
-    };
+  if (!response.ok) {
+    return null;
   }
 
-  return {
-    title: `${meeting.name} - Sacrament Meetings`,
-    description: `Agenda de ${meeting.name}`,
-  };
+
+  return response.json();
+
 }
 
-export default async function MeetingDetailPage({ params }: Props) {
-  const meeting = await getMeeting(params.id);
+
+
+export default async function MeetingPage({
+  params,
+}: {
+  params: Promise<{ id: string }>
+}) {
+
+
+  const { id } = await params;
+
+
+  const meeting =
+    await getMeeting(id);
+
+
 
   if (!meeting) {
     notFound();
   }
 
+
   return (
-    <div>
-      <MeetingDetail meeting={meeting} />
-    </div>
+    <MeetingDetail
+      meeting={meeting}
+    />
   );
+
 }

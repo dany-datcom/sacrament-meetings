@@ -1,62 +1,80 @@
-'use client';
-
 import Link from 'next/link';
-import type { Meeting } from '@/types/meeting';
+import type { SacramentMeeting } from '@/lib/types';
 
 interface MeetingCardProps {
-  meeting: Meeting;
+  meeting: SacramentMeeting;
 }
 
-export default function MeetingCard({ meeting }: MeetingCardProps) {
-  const dayNames = [
-    'Sunday',
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday',
-  ];
-
-  const dayName = dayNames[meeting.dayOfWeek];
+export default function MeetingCard({
+  meeting,
+}: MeetingCardProps) {
 
   return (
     <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition overflow-hidden">
-      <div className="bg-blue-600 text-white p-4">
-        <h3 className="text-xl font-bold">{meeting.name}</h3>
-        <p className="text-blue-100">{dayName}</p>
+
+      <div className="bg-blue-700 text-white p-5">
+        <h2 className="text-xl font-bold">
+          Sacrament Meeting
+        </h2>
+
+        <p className="text-blue-100">
+          {meeting.date}
+        </p>
+
+        <p className="mt-2 capitalize">
+          Type: {meeting.meetingType}
+        </p>
       </div>
 
-      <div className="p-4 space-y-3">
-        <div>
-          <p className="text-gray-600 text-sm">Time</p>
-          <p className="font-semibold text-gray-900">{meeting.time}</p>
-        </div>
+
+      <div className="p-5 space-y-3">
 
         <div>
-          <p className="text-gray-600 text-sm">Duration</p>
-          <p className="font-semibold text-gray-900">{meeting.duration} minutes</p>
+          <p className="text-sm text-gray-500">
+            Presiding
+          </p>
+
+          <p className="font-semibold">
+            {meeting.presiding}
+          </p>
         </div>
 
-        <div>
-          <p className="text-gray-600 text-sm">Location</p>
-          <p className="font-semibold text-gray-900">{meeting.location}</p>
-        </div>
 
         <div>
-          <p className="text-gray-600 text-sm">Agenda Items</p>
-          <p className="font-semibold text-gray-900">{meeting.items.length} items</p>
+          <p className="text-sm text-gray-500">
+            Conducting
+          </p>
+
+          <p className="font-semibold">
+            {meeting.conducting}
+          </p>
         </div>
+
+
+        <div>
+          <p className="text-sm text-gray-500">
+            Speakers
+          </p>
+
+          <p className="font-semibold">
+            {meeting.speakers.length}
+          </p>
+        </div>
+
       </div>
 
-      <div className="p-4 pt-0">
+
+      <div className="p-5 pt-0">
+
         <Link
           href={`/meetings/${meeting.id}`}
-          className="block w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded text-center transition"
+          className="block text-center bg-blue-700 hover:bg-blue-800 text-white font-semibold py-2 rounded"
         >
-          View Details
+          View Program
         </Link>
+
       </div>
+
     </div>
   );
 }

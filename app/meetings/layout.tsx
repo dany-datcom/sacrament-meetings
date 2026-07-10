@@ -3,9 +3,15 @@ export default function MeetingsLayout({
 }: {
   children: React.ReactNode;
 }) {
+
   return (
-    <div>
-      {children}
-    </div>
+
+    <section>
+
+        {children}
+
+    </section>
+
   );
+
 }
