@@ -8,11 +8,11 @@ async function getMeeting(
 ): Promise<SacramentMeeting | null> {
 
   const response = await fetch(
-    `http://localhost:3000/api/meetings/${id}`,
-    {
-      cache: 'no-store',
-    }
-  );
+  `${process.env.NEXT_PUBLIC_API_URL}/api/meetings/${id}`,
+  {
+    cache: 'no-store',
+  }
+);
 
 
   if (!response.ok) {
