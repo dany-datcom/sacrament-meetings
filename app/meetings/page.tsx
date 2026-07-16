@@ -1,31 +1,46 @@
 import MeetingCard from '@/components/MeetingCard';
-import type { SacramentMeeting } from '@/lib/types';
+import { getMeetings, getMeetingsTotalPages } from '@/lib/meetings-db';
+import { MeetingSearch } from '@/components/MeetingSearch';
+import { Pagination } from '@/components/Pagination';
+
+export default async function MeetingsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{
+    query?: string;
+    page?: string;
+  }>;
+}) {
 
 
-async function getMeetings(): Promise<SacramentMeeting[]> {
-
-  const response = await fetch(
-  `${process.env.NEXT_PUBLIC_API_URL}/api/meetings`,
-  {
-    cache: 'no-store',
-  }
-);
+  const params = await searchParams;
 
 
-  if (!response.ok) {
-    throw new Error('Failed to fetch meetings');
-  }
+  const query =
+    params.query ?? '';
 
 
-  return response.json();
-
-}
+  const currentPage =
+    Number(params.page) || 1;
 
 
 
-export default async function MeetingsPage() {
+  const [
+    meetings,
+    totalPages
+  ] = await Promise.all([
 
-  const meetings = await getMeetings();
+    getMeetings(
+      query,
+      currentPage
+    ),
+
+    getMeetingsTotalPages(
+      query
+    ),
+
+  ]);
+
 
 
   return (
@@ -48,20 +63,43 @@ export default async function MeetingsPage() {
 
 
 
-      <section className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <MeetingSearch />
 
-        {
-          meetings.map((meeting) => (
 
-            <MeetingCard
-              key={meeting.id}
-              meeting={meeting}
-            />
 
-          ))
-        }
+      <section>
+
+
+        {meetings.length === 0 ? (
+
+          <p className="text-gray-600">
+            No meetings found.
+          </p>
+
+
+        ) : (
+
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+
+            {meetings.map((meeting) => (
+
+              <MeetingCard
+                key={meeting.id}
+                meeting={meeting}
+              />
+
+            ))}
+
+          </div>
+
+        )}
+
 
       </section>
+
+
+
+      <Pagination totalPages={totalPages} />
 
 
     </main>

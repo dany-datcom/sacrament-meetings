@@ -3,41 +3,21 @@ import { getMeetingById } from '@/lib/meetings-db';
 
 export async function GET(
   request: Request,
-  {
-    params,
-  }: {
-    params: Promise<{ id: string }>
-  }
+  { params }: { params: Promise<{ id: string }> }
 ) {
 
   const { id } = await params;
 
 
-  const meetingId = Number(id);
-
-
-  if (Number.isNaN(meetingId)) {
-    return Response.json(
-      { error: 'Invalid id' },
-      {
-        status: 400,
-      }
-    );
-  }
-
-
-  const meeting =
-    getMeetingById(meetingId);
+  const meeting = await getMeetingById(
+    Number(id)
+  );
 
 
   if (!meeting) {
     return Response.json(
-      {
-        error: 'Meeting not found',
-      },
-      {
-        status: 404,
-      }
+      { error: 'Meeting not found' },
+      { status: 404 }
     );
   }
 

@@ -1,47 +1,17 @@
 import { redirect } from 'next/navigation';
-import { getMeetings } from '@/lib/meetings-db';
+import { getCurrentMeeting } from '@/lib/meetings-db';
 
 
-export default function CurrentMeetingPage() {
+export default async function CurrentMeetingPage() {
 
-  const today = new Date();
-
-
-  const dayOfWeek = today.getDay();
+  const meeting = await getCurrentMeeting();
 
 
-  const sunday = new Date(today);
-
-  sunday.setDate(
-    today.getDate() - dayOfWeek
-  );
-
-
-  // Crear fecha local YYYY-MM-DD
-  const currentSunday =
-    `${sunday.getFullYear()}-${String(
-      sunday.getMonth() + 1
-    ).padStart(2, '0')}-${String(
-      sunday.getDate()
-    ).padStart(2, '0')}`;
-
-
-
-  const meetings =
-    getMeetings(currentSunday);
-
-
-
-  if (meetings.length === 0) {
-
+  if (!meeting) {
     redirect('/meetings');
-
   }
 
 
-
-  redirect(
-    `/meetings/${meetings[0].id}`
-  );
+  redirect(`/meetings/${meeting.id}`);
 
 }
