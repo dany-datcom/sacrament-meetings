@@ -5,11 +5,11 @@ import type { SacramentMeeting } from '@/lib/types';
 async function getMeetings(): Promise<SacramentMeeting[]> {
 
   const response = await fetch(
-    'http://localhost:3000/api/meetings',
-    {
-      cache: 'no-store',
-    }
-  );
+  `${process.env.NEXT_PUBLIC_API_URL}/api/meetings`,
+  {
+    cache: 'no-store',
+  }
+);
 
 
   if (!response.ok) {
