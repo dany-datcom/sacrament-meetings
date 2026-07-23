@@ -26,5 +26,6 @@ export default async function MeetingPage({
     <MeetingDetail
       meeting={meeting}
     />
+    
   );
 }

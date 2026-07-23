@@ -2,6 +2,7 @@ import MeetingCard from '@/components/MeetingCard';
 import { getMeetings, getMeetingsTotalPages } from '@/lib/meetings-db';
 import { MeetingSearch } from '@/components/MeetingSearch';
 import { Pagination } from '@/components/Pagination';
+import Link from 'next/link';
 
 export default async function MeetingsPage({
   searchParams,
@@ -40,14 +41,19 @@ export default async function MeetingsPage({
     ),
 
   ]);
-
-
+  
 
   return (
 
     <main className="space-y-8">
 
+      <Link
 
+href="/meetings/create"
+ className="bg-green-600 text-white px-4 py-2 rounded"
+>
+ Create Meeting
+</Link>
       <header>
 
         <h1 className="text-4xl font-bold text-gray-900">
@@ -65,7 +71,8 @@ export default async function MeetingsPage({
 
       <MeetingSearch />
 
-
+    
+ 
 
       <section>
 
@@ -106,3 +113,5 @@ export default async function MeetingsPage({
 
   );
 }
+
+

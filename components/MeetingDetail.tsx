@@ -1,5 +1,5 @@
 import type { SacramentMeeting } from '@/lib/types';
-
+import Link from 'next/link';
 
 interface MeetingDetailProps {
   meeting: SacramentMeeting;
@@ -28,6 +28,13 @@ export default function MeetingDetail({
         <p className="capitalize">
           Type: {meeting.meetingType}
         </p>
+
+        <Link
+    href={`/meetings/${meeting.id}/edit`}
+    className="inline-block mt-4 bg-white text-blue-700 px-4 py-2 rounded font-semibold"
+  >
+   Edit Meeting
+  </Link>
 
       </header>
 
@@ -168,11 +175,12 @@ export default function MeetingDetail({
 
 
         {
-          meeting.wardBusiness.map(
-            (item) => (
-              <p key={item.description}>
-                • {item.description}
-              </p>
+           Array.isArray(meeting.wardBusiness) &&
+  meeting.wardBusiness.map(
+    (item) => (
+      <p key={item.description}>
+        • {item.description}
+      </p>
             )
           )
         }

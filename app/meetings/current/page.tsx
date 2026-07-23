@@ -15,3 +15,4 @@ export default async function CurrentMeetingPage() {
   redirect(`/meetings/${meeting.id}`);
 
 }
+

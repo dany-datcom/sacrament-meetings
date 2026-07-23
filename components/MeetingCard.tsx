@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { deleteMeeting } from '@/lib/actions';
 import type { SacramentMeeting } from '@/lib/types';
 
 interface MeetingCardProps {
@@ -64,16 +65,40 @@ export default function MeetingCard({
       </div>
 
 
-      <div className="p-5 pt-0">
+      <div className="p-5 pt-0 space-y-3">
 
-        <Link
-          href={`/meetings/${meeting.id}`}
-          className="block text-center bg-blue-700 hover:bg-blue-800 text-white font-semibold py-2 rounded"
-        >
-          View Program
-        </Link>
+  <Link
+    href={`/meetings/${meeting.id}`}
+    className="block text-center bg-blue-700 hover:bg-blue-800 text-white font-semibold py-2 rounded"
+  >
+    View Program
+  </Link>
 
-      </div>
+
+  <Link
+    href={`/meetings/${meeting.id}/edit`}
+    className="block text-center bg-yellow-500 hover:bg-yellow-600 text-white font-semibold py-2 rounded"
+  >
+    Edit Meeting
+  </Link>
+
+
+  <form
+    action={deleteMeeting.bind(null, meeting.id)}
+  >
+
+    <button
+      type="submit"
+      className="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-2 rounded"
+    >
+      Delete Meeting
+    </button>
+
+
+  </form>
+
+
+</div>
 
     </div>
   );
