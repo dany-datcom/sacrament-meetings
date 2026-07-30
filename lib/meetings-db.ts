@@ -345,3 +345,26 @@ export async function getCurrentMeeting()
  ) ?? null;
 
 }
+
+export async function getUserByEmail(
+  email: string
+) {
+
+  const rows = await sql`
+
+    SELECT
+      id,
+      name,
+      email,
+      password_hash AS "passwordHash"
+
+    FROM users
+
+    WHERE email = ${email}
+
+  `;
+
+
+  return rows[0] ?? null;
+
+}

@@ -3,12 +3,54 @@
 import { z } from 'zod';
 import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
+import { auth } from "@/auth";
+import { signIn } from "@/auth";
+import { AuthError } from "next-auth";
 
 import {
   addMeeting,
   updateMeeting as updateMeetingDB,
   deleteMeeting as deleteMeetingDB,
 } from '@/lib/meetings-db';
+
+export async function authenticate(
+  prevState: string | undefined,
+  formData: FormData
+){
+
+  try{
+
+    await signIn(
+      "credentials",
+      formData
+    );
+
+
+  }catch(error){
+
+    if(error instanceof AuthError){
+
+      switch(error.type){
+
+        case "CredentialsSignin":
+
+          return "Invalid email or password.";
+
+
+        default:
+
+          return "Something went wrong.";
+
+      }
+
+    }
+
+
+    throw error;
+
+  }
+
+}
 
 
 
@@ -213,7 +255,23 @@ formData.get('speakers')
 }
 
 
+async function requireOwner(){
 
+const session = await auth();
+
+
+if(!session?.user){
+
+throw new Error(
+"Not authenticated"
+);
+
+}
+
+
+return session;
+
+}
 
 // CREATE
 
@@ -221,6 +279,7 @@ export async function createMeeting(
   prevState: State | undefined,
   formData: FormData
 ): Promise<State> {
+  await requireOwner();
 
 
   const rawData =
@@ -297,6 +356,7 @@ export async function updateMeeting(
   prevState: State,
   formData: FormData
 ): Promise<State> {
+  await requireOwner();
 
 
 
@@ -373,14 +433,13 @@ export async function updateMeeting(
 
 
 
-
 // DELETE
 
 export async function deleteMeeting(
   id:number
 ){
 
-
+  await requireOwner();
   try{
 
 

@@ -1,16 +1,20 @@
-import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import type { Metadata } from "next";
 
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Sacrament Meetings',
-  description: 'Complete agenda and details for sacrament meetings',
+  title: {
+    default: "Sacrament Meetings",
+    template: "%s | Sacrament Meetings",
+  },
+  description:
+    "Plan and organize sacrament meetings with schedules, speakers, hymns, and announcements.",
   icons: {
-    icon: '/favicon.ico',
+    icon: "/favicon.ico",
   },
 };
 

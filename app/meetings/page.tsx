@@ -3,6 +3,12 @@ import { getMeetings, getMeetingsTotalPages } from '@/lib/meetings-db';
 import { MeetingSearch } from '@/components/MeetingSearch';
 import { Pagination } from '@/components/Pagination';
 import Link from 'next/link';
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Meetings",
+  description: "View all sacrament meetings.",
+};
 
 export default async function MeetingsPage({
   searchParams,

@@ -5,7 +5,6 @@ import Link from 'next/link';
 
 
 export default function ErrorPage({
-  error,
   reset,
 }: {
   error: Error & {
